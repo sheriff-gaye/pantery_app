@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <div className="py-36 space-y-5 text-center">
       <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl space-y-5 font-extrabold">
-        <h1 className="text-primary">
+        <h1 className="text-primary font-bold">
           <Typewriter
             options={{
               strings: ['AI Pantry', 'Inventory Management'],

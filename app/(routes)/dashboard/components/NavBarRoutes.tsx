@@ -1,5 +1,5 @@
 "use client";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { LogOut, MoonIcon, SunIcon } from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
@@ -13,12 +13,14 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-
+import Image from "next/image";
+import useAuth from "@/hooks/auth";
 
 const NabBarRoutes = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
+  const { user, loading } = useAuth();
 
   const onLogout = async () => {
     try {
@@ -57,7 +59,21 @@ const NabBarRoutes = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <Button size="lg" onClick={onLogout}>Logout</Button>
+
+        <div>
+          <Image
+            src={user?.photoURL!}
+            className="rounded-full"
+            alt="user_profile"
+            width={40}
+            height={40}
+          />
+        </div>
+        <div>
+          <Button size="lg" onClick={onLogout}>
+            Logout
+          </Button>
+        </div>
       </div>
     </>
   );

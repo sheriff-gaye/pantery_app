@@ -1,38 +1,44 @@
-"use client"
-import { Compass, Layout } from "lucide-react";
-import SiderBarItem from "./SiderBarItem"
-
+"use client";
+import { DatabaseIcon, Layout, List, Store, User } from "lucide-react";
+import SiderBarItem from "./SiderBarItem";
 
 const guestRoute = [
-    {
-      icon: Layout,
-      label: "Dashboard",
-      href: "/dashboard"
-    },
-    {
-      icon: Compass,
-      label: "Browse",
-      href: "/search"
-    },
+  {
+    icon: DatabaseIcon,
+    label: "Dashboard",
+    href: "/dashboard"
+  },
+  {
+    icon: Store,
+    label: "My Store",
+    href: "/store"
+  },
+  {
+    icon: List,
+    label: "Categories",
+    href: "/categories"
+  },
 
-  ];
+  {
+    icon: User,
+    label: "Profile",
+    href: "/profile"
+  }
+];
 
-const SideBarRoutes=()=>{
-
-    return(
-        <div className="flex flex-col w-full ">
-        {guestRoute.map((route) => (
-          <SiderBarItem
-            key={route.href}
-            icon={route.icon}
-            label={route.label}
-            href={route.href}
-          />
-        ))}
-      </div>
-
-    )
-}
-
+const SideBarRoutes = () => {
+  return (
+    <div className="flex flex-col w-full ">
+      {guestRoute.map((route) => (
+        <SiderBarItem
+          key={route.href}
+          icon={route.icon}
+          label={route.label}
+          href={route.href}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default SideBarRoutes;

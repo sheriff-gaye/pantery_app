@@ -46,6 +46,8 @@ const Navbar = () => {
 
   const { user, loading } = useAuth(); 
 
+  console.log(user?.metadata)
+
   if (loading) return null;
 
   return (

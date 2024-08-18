@@ -8,6 +8,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
@@ -36,7 +38,7 @@ const NabBarRoutes = () => {
 
   return (
     <>
-      <div className="flex  gap-x-2 ml-auto z-1">
+      <div className="flex gap-x-2 ml-auto relative z-10">
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -46,7 +48,7 @@ const NabBarRoutes = () => {
                 <span className="sr-only">Toggle theme</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="z-10">
+            <DropdownMenuContent align="start" className="z-20">
               <DropdownMenuItem onClick={() => setTheme("light")}>
                 Light
               </DropdownMenuItem>
@@ -61,18 +63,26 @@ const NabBarRoutes = () => {
         </div>
 
         <div>
-          <Image
-            src={user?.photoURL!}
-            className="rounded-full"
-            alt="user_profile"
-            width={40}
-            height={40}
-          />
-        </div>
-        <div>
-          <Button size="lg" onClick={onLogout}>
-            Logout
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <Image
+                  src={user?.photoURL!}
+                  className="rounded-full"
+                  alt="user_profile"
+                  width={40}
+                  height={40}
+                />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="z-20">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem onClick={onLogout}>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </>

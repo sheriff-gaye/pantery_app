@@ -25,13 +25,13 @@ const ComingDeadlines=()=>{
         <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
         <CardHeader className="flex flex-row items-center">
           <div className="grid gap-2">
-            <CardTitle>Transactions</CardTitle>
+            <CardTitle>Products</CardTitle>
             <CardDescription>
-              Recent transactions from your store.
+              Upcoming Expiriy Products
             </CardDescription>
           </div>
           <Button asChild size="sm" className="ml-auto gap-1">
-            <Link href="#">
+            <Link href="/categories">
               View All
               <ArrowUpRight className="h-4 w-4" />
             </Link>
@@ -41,7 +41,7 @@ const ComingDeadlines=()=>{
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Customer</TableHead>
+                <TableHead>Products</TableHead>
                 <TableHead className="hidden xl:table-column">
                   Type
                 </TableHead>
@@ -51,15 +51,15 @@ const ComingDeadlines=()=>{
                 <TableHead className="hidden xl:table-column">
                   Date
                 </TableHead>
-                <TableHead className="text-right">Amount</TableHead>
+                <TableHead className="text-right">Date</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               <TableRow>
                 <TableCell>
-                  <div className="font-medium">Liam Johnson</div>
+                  <div className="font-medium">Apple</div>
                   <div className="hidden text-sm text-muted-foreground md:inline">
-                    liam@example.com
+                    Fruits
                   </div>
                 </TableCell>
                 <TableCell className="hidden xl:table-column">

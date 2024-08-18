@@ -3,7 +3,7 @@
 import useAuth from "@/hooks/auth";
 import {  Loader2} from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -19,6 +19,7 @@ import CategoryChart from "./components/category-chart";
 const Dashboard = () => {
   const { user, loading } = useAuth();
   const router = useRouter();
+  
 
   useEffect(() => {
     if (!loading && !user) {
@@ -28,8 +29,8 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div>
-        <Loader2 className="h-4 w-5 animate-spin" />
+      <div className="flex justify-center items-center">
+        <Loader2 className="h-12 w-12 animate-spin" />
       </div>
     );
   }

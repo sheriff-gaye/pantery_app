@@ -9,14 +9,14 @@ const guestRoute = [
     href: "/dashboard"
   },
   {
-    icon: Store,
-    label: "My Store",
-    href: "/store"
-  },
-  {
     icon: List,
     label: "Categories",
     href: "/categories"
+  },
+  {
+    icon: Store,
+    label: "My Store",
+    href: "/store"
   },
 
   {

@@ -1,6 +1,6 @@
 "use client";
 
-import {useAuth} from "@/hooks/auth";
+import { useAuth } from "@/hooks/auth";
 import { useState } from "react";
 import { doc, deleteDoc, getDoc } from "firebase/firestore";
 import { deleteUser } from "firebase/auth";
@@ -29,14 +29,14 @@ const ProfilePage = () => {
 
       toast({
         title: "Account Deleted",
-        description: "Your account has been successfully deleted.",
+        description: "Your account has been successfully deleted."
       });
 
-      router.push("/"); 
+      router.push("/");
     } catch (error) {
       toast({
         title: "Error",
-        description: "An error occurred while deleting your account.",
+        description: "An error occurred while deleting your account."
       });
       console.error("Error deleting account: ", error);
     } finally {
@@ -61,7 +61,7 @@ const ProfilePage = () => {
         <CardHeader>
           <div className="flex justify-start">
             <Avatar className="h-24 w-24 mr-4">
-              <AvatarImage src={user?.photoURL || "/placeholder-avatar.png"} />
+              <AvatarImage src={user?.photoURL!} />
               <AvatarFallback>{user?.displayName?.charAt(0)}</AvatarFallback>
             </Avatar>
             <div>
@@ -75,34 +75,28 @@ const ProfilePage = () => {
         <CardContent>
           {user ? (
             <div className="space-y-4">
+              <p className="text-md">Full Name: {user?.displayName || "N/A"}</p>
+              <p className="text-md">Email:{user?.email || "N/A"}</p>
               <p className="text-md">
-                <strong>Full Name:</strong> {user?.displayName || "N/A"}
+                Creation Time: {user?.metadata.creationTime}
               </p>
               <p className="text-md">
-                <strong>Email:</strong> {user?.email || "N/A"}
+                Last Sign-In Time:
+                {user?.metadata.lastSignInTime || "N/A"}
               </p>
+
               <p className="text-md">
-                <strong>Creation Time:</strong> {user?.metadata.creationTime || "N/A"}
-              </p>
-              <p className="text-md">
-                <strong>Last Sign-In Time:</strong> {user?.metadata.lastSignInTime || "N/A"}
-              </p>
-              <p className="text-md">
-                <strong>Tenant ID:</strong> {user?.tenantId || "N/A"}
-              </p>
-              <p className="text-md">
-                <strong>Provider ID:</strong> {user?.providerId || "N/A"}
+                Provider ID: {user?.providerId || "N/A"}
               </p>
             </div>
           ) : (
-            <p className="text-md">No additional profile information available.</p>
+            <p className="text-md">
+              No additional profile information available.
+            </p>
           )}
         </CardContent>
         <div className="p-4">
-          <Button
-            onClick={handleDeleteAccount}
-            disabled={deleting}
-          >
+          <Button onClick={handleDeleteAccount} disabled={deleting}>
             {deleting ? "Deleting..." : "Delete Account"}
           </Button>
         </div>

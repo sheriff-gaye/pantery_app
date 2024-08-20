@@ -3,9 +3,8 @@ export function getUserLocation() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          console.log("Latitude:", latitude, "Longitude:", longitude);
+          const latitude:any = position.coords.latitude;
+          const longitude:any = position.coords.longitude;
           resolve({ latitude, longitude });
         },
         (error) => {
@@ -19,10 +18,3 @@ export function getUserLocation() {
 }
 
 
-// getUserLocation()
-//   .then((coords) => {
-//     console.log("User's Location:", coords);
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//   });

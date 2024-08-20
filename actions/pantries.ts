@@ -113,11 +113,11 @@ export async function totalExpiredPantries(userId: string): Promise<number | und
         );
 
         const querySnapshot = await getDocs(expiredPantriesQuery);
-        return querySnapshot.size; // Return the number of expired pantries directly
+        return querySnapshot.size; 
 
     } catch (error) {
         console.error("Error getting expired products:", error);
-        return undefined; // Return undefined in case of an error
+        return 0; 
     }
 }
 

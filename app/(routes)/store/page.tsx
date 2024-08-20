@@ -6,12 +6,12 @@ import PantryCard from "./components/pantry";
 import usePantryModal from "@/hooks/usePantryModal";
 import PantrySkeleton from "./components/skeleton";
 import useConfirmModal from "@/hooks/useConfirmModal";
-import { getUserLocation } from "@/lib/lat";
 import { allPantries, PantryItem } from "@/actions/pantries";
 import { useAuth } from "@/hooks/auth";
 import { Skeleton } from "@/components/ui/skeleton";
 import { chatSession } from "./components/ai";
 import useReceipeModal from "@/hooks/useConfirmModal";
+import { getCity } from "@/lib/location";
 
 const Store = () => {
   const pantryModal = usePantryModal();
@@ -37,7 +37,7 @@ const Store = () => {
 
     const fetchUserLocation = async () => {
       try {
-        const location = await getUserLocation();
+        const location = await getCity();
         setUserLocation(location);
       } catch (error) {
         console.error("Error fetching user location:", error);

@@ -34,10 +34,11 @@ const ComingDeadlines = () => {
       if (!user?.uid) return;
 
       try {
+        setLoading(true);
         const fetchedData = await firstFiveDeadlines(user.uid);
         setData(fetchedData);
       } catch (err) {
-        console.error("Error fetching data:", err);
+        console.error("Error fetching expired data:", err);
       } finally {
         setLoading(false);
       }

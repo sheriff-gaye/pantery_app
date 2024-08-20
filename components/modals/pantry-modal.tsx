@@ -117,7 +117,7 @@ const PantryModal = () => {
         name: data.name.trim(),
         category: data.category.trim(),
         date: data.date,
-        quantity: data.quantity.trim(),
+        quantity: data.quantity,
         userId: user.uid,
       };
 

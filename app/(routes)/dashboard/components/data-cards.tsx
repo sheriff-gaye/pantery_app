@@ -22,15 +22,6 @@ const DataCards = () => {
           const totalProducts= await allPantriesNum(user?.uid);
           const totalQty = await getTotalPantryQuantity(user?.uid);
           const expiredProducts = await totalExpiredPantries(user?.uid);
-
-         
-          console.log('Fetched Data:', {
-            totalCategory,
-            totalProducts,
-            totalQty,
-            expiredProducts
-          });
-
         
           setCategory(Number(totalCategory));
           setProduct(Number(totalProducts));

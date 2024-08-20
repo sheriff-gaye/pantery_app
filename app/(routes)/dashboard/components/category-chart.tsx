@@ -113,7 +113,7 @@ const CategoryChart = () => {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Pantry categories’ distribution for inventory management.
+          Pantry categories distribution for inventory 
         </div>
       </CardFooter>
     </Card>

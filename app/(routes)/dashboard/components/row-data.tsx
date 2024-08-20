@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { parseISO } from "date-fns"; // Import date-fns for date parsing
+import { parseISO } from "date-fns";
 
 interface Pantry {
   id: string;
@@ -20,7 +20,13 @@ interface RowDataProps {
 
 const RowData = ({ data, loading }: RowDataProps) => {
   if (loading) {
-    return <Skeleton className="h-30 w-full" />;
+    return (
+      <>
+        <Skeleton className="h-30 w-full" />
+        <Skeleton className="h-30 w-full" />
+        <Skeleton className="h-30 w-full" />
+      </>
+    );
   }
 
   const today = new Date();

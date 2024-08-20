@@ -48,7 +48,7 @@ const NabBarRoutes = () => {
                 <span className="sr-only">Toggle theme</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="z-20">
+            <DropdownMenuContent align="start" className="z-[99999]">
               <DropdownMenuItem onClick={() => setTheme("light")}>
                 Light
               </DropdownMenuItem>
@@ -76,7 +76,7 @@ const NabBarRoutes = () => {
                 />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="z-20">
+            <DropdownMenuContent align="end" className="z-[9999]">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
               <DropdownMenuItem>Settings</DropdownMenuItem>

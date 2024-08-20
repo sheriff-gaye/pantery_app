@@ -12,9 +12,5 @@ export const columns: ColumnDef<Category>[] = [
     accessorKey: "category",
     header: "Category"
   },
-  {
-    id: "quantity",
-    header:"Quantity"
- 
-  },
+  
 ];

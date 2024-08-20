@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "hooks/auth.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "hooks/auth.ts", "scripts/seed.mjs", "firebase.js", "lib/location.ts", "lib/lat.ts"],
   "exclude": ["node_modules"]
 }

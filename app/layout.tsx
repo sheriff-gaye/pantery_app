@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
-import CategoryModal from "@/components/modals/category-modal";
 import PantryModal from "@/components/modals/pantry-modal";
 import ConfirmModal from "@/components/modals/receipe-modal";
 
@@ -28,7 +27,7 @@ export default function RootLayout({
             disableTransitionOnChange>
         {children}
         </ThemeProvider>
-        <CategoryModal/>
+       
         <PantryModal/>
         <ConfirmModal/>
         <Toaster />

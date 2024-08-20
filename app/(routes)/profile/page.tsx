@@ -1,6 +1,6 @@
 "use client";
 
-import useAuth from "@/hooks/auth";
+import {useAuth} from "@/hooks/auth";
 import { useState } from "react";
 import { doc, deleteDoc, getDoc } from "firebase/firestore";
 import { deleteUser } from "firebase/auth";

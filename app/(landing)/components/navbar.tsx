@@ -12,56 +12,48 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
-
 import { auth } from "./../../../firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import useAuth from "@/hooks/auth";
-
+import { useAuth } from "@/hooks/auth";
+import Logo from "./logo";
 
 const Navbar = () => {
   const { setTheme } = useTheme();
 
-  const router=useRouter();
-  const { toast } = useToast()
+  const router = useRouter();
+  const { toast } = useToast();
 
   const googleAuth = new GoogleAuthProvider();
 
   const onLogin = async () => {
-  try {
-    await signInWithPopup(auth, googleAuth);
-    router.push('/dashboard');
-
-  } catch (error) {
-    toast({
+    try {
+      await signInWithPopup(auth, googleAuth);
+      router.push("/dashboard");
+    } catch (error) {
+      toast({
         title: "Authentication Error",
-        description: "Please Try Again",
-      })
-
-    
-  }
+        description: "Please Try Again"
+      });
+    }
   };
 
-  const { user, loading } = useAuth(); 
+  const { user, loading } = useAuth();
 
-  console.log(user?.metadata)
+  console.log(user?.metadata);
 
   if (loading) return null;
 
   return (
     <nav className="py-4  bg-transparent flex  items-center justify-between w-full border-b">
-      <Link href="/" className="flex items-center">
-        <div className="relative h-8 w-8 mr-4 gap-3">
-          <Image src="/logo.png" alt="logo" fill />
-          <h2 className="text-xl font-bold ml-9">Pantry </h2>
-        </div>
-      </Link>
+      <Logo />
 
       <div className="items-center gap-x-4 flex">
         <div>
-            <Button size="lg" disabled={loading} onClick={onLogin}>{user ? 'Go to Dashboard' : "Login" }</Button>
+          <Button size="lg" disabled={loading} onClick={onLogin}>
+            {user ? "Go to Dashboard" : "Login"}
+          </Button>
         </div>
 
         <DropdownMenu>

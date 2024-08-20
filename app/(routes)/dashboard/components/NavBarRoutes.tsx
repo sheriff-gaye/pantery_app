@@ -16,7 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
-import useAuth from "@/hooks/auth";
+import {useAuth} from "@/hooks/auth";
 
 const NabBarRoutes = () => {
   const router = useRouter();

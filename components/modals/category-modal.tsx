@@ -19,6 +19,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "../ui/button";
+import useAuth from "@/hooks/auth";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -29,6 +30,8 @@ const formSchema = z.object({
 const CategoryModal = () => {
   const categoryModal = useCategoryModal();
   const { category } = categoryModal;
+  const { user, loading } = useAuth(); 
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,11 +57,11 @@ const CategoryModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       setIsLoading(true);
-
+      const userId =user?.uid ;
       if (category?.id && data.name.trim() !== "") {
         const categoryRef = doc(db, "category", category.id);
         await updateDoc(categoryRef, {
-          name: data.name.trim()
+          name: data.name.trim(),userId
         });
 
         toast({
@@ -67,7 +70,7 @@ const CategoryModal = () => {
         });
       } else {
         await addDoc(collection(db, "category"), {
-          name: data.name.trim()
+          name: data.name.trim(),userId
         });
 
         toast({

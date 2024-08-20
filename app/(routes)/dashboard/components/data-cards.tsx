@@ -1,52 +1,77 @@
-
+"use client";
 
 import { Activity, CreditCard, ListIcon, Package } from "lucide-react";
 import DataCard from "./data-card";
-import { totalCategories } from "@/actions/get-categories";
+import { totalCategories } from "@/actions/categories";
+import { allPantries, allPantriesNum, getTotalPantryQuantity, totalExpiredPantries } from "@/actions/pantries";
+import { useAuth } from "@/hooks/auth";
 import { useEffect, useState } from "react";
 
 const DataCards = () => {
+  const [category, setCategory] = useState<number>(0);
+  const [qty, setQty] = useState<number>(0);
+  const [product, setProduct] = useState<number>(0);
+  const [expired, setExpired] = useState<number>(0);
+  const { user } = useAuth();
 
-  const [category,setCategory]=useState<any>();
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user?.uid) {
+        try {
+          const totalCategory = await totalCategories();
+          const totalProducts= await allPantriesNum(user?.uid);
+          const totalQty = await getTotalPantryQuantity(user?.uid);
+          const expiredProducts = await totalExpiredPantries(user?.uid);
 
- useEffect(()=>{
+         
+          console.log('Fetched Data:', {
+            totalCategory,
+            totalProducts,
+            totalQty,
+            expiredProducts
+          });
 
-  const fetchData=async()=>{
-  const  totalCategory= await totalCategories();
-  setCategory(totalCategory);
-  }
+        
+          setCategory(Number(totalCategory));
+          setProduct(Number(totalProducts));
+          setQty(Number(totalQty));
+          setExpired(Number(expiredProducts));
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    };
 
-  fetchData()
-
- },[category])
+    fetchData();
+  }, [user]);
 
   return (
     <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
       <DataCard
-        title=" Total  Categories"
+        title="Total Categories"
         icon={ListIcon}
         value={category}
-        desc=" +20.1% from last month"
+        desc="+20.1% from last month"
       />
 
       <DataCard
         title="Total Products"
         icon={Package}
-        value={50}
-        desc="  +10.1% from last month"
+        value={product}
+        desc="+10.1% from last month"
       />
 
       <DataCard
-        title="Expired Product"
+        title="Expired Products"
         icon={CreditCard}
-        value={4}
+        value={expired}
         desc="+19% from last month"
       />
 
       <DataCard
         title="Stock Level"
         icon={Activity}
-        value={34}
+        value={qty}
         desc="+201 since last hour"
       />
     </div>

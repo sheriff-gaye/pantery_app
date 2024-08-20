@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -11,24 +11,19 @@ import {
   FormDescription,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "../ui/button";
-import { addDoc, updateDoc, doc, collection, getDocs } from "firebase/firestore";
+import { addDoc, updateDoc, doc, collection } from "firebase/firestore";
 import { db } from "@/firebase";
 import { toast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
-import { allCatgeories } from "@/actions/get-categories";
+import { getCategories } from "@/actions/categories"; 
+import { useAuth } from "@/hooks/auth";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -48,19 +43,19 @@ const formSchema = z.object({
 const PantryModal = () => {
   const pantryModal = usePantryModal();
   const [isLoading, setIsLoading] = useState(false);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any | null>([]);
+  const { user } = useAuth();
 
   const router = useRouter();
-  const { item } = pantryModal; 
+  const { item } = pantryModal;
 
-  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name:  item?.name || "",
-      category:item?.category || "",
-      date:item?.date || "",
-      quantity:item?.quantity || 1,
+      name: "",
+      category: "",
+      date: "",
+      quantity: 1,
     },
   });
 
@@ -68,17 +63,25 @@ const PantryModal = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const   Totalcategories=await allCatgeories()
-      setCategories(Totalcategories);
+      try {
+        const fetchedCategories = await getCategories(); // Fetches all categories
+        setCategories(fetchedCategories);
+        console.log("Fetched categories:", fetchedCategories);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+        toast({
+          title: "Error",
+          description: "Failed to fetch categories.",
+        });
+      }
     };
-
+  
     fetchCategories();
-  }, [categories]);
+  }, [user]);
 
 
   useEffect(() => {
     if (item) {
-      // Reset form with item data if editing
       reset({
         name: item.name || "",
         category: item.category || "",
@@ -88,32 +91,45 @@ const PantryModal = () => {
     }
   }, [item, reset]);
 
+  const handleClose = () => {
+    reset({
+      name: "",
+      category: "",
+      date: "",
+      quantity: 1,
+    });
+    pantryModal.onClose();
+  };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    if (!user) {
+      toast({
+        title: "Error",
+        description: "You must be logged in to perform this action.",
+      });
+      return;
+    }
+
     try {
       setIsLoading(true);
 
+      const itemData = {
+        name: data.name.trim(),
+        category: data.category.trim(),
+        date: data.date,
+        quantity: data.quantity.trim(),
+        userId: user.uid,
+      };
+
       if (item) {
-            
-        await updateDoc(doc(db, "pantry", item.id), {
-          name: data.name.trim(),
-          category: data.category.trim(),
-          date: data.date,
-          quantity: data.quantity,
-        });
+        await updateDoc(doc(db, "pantry", item.id), itemData);
 
         toast({
           title: "Success",
           description: `Pantry item has been updated successfully.`,
         });
       } else {
-        
-        await addDoc(collection(db, "pantry"), {
-          name: data.name.trim(),
-          category: data.category.trim(),
-          date: data.date,
-          quantity: data.quantity,
-        });
+        await addDoc(collection(db, "pantry"), itemData);
 
         toast({
           title: "Success",
@@ -122,13 +138,13 @@ const PantryModal = () => {
       }
 
       form.reset({
-        name:"",
-        quantity:1,
-        category:"",
-        date:""
+        name: "",
+        quantity: 1,
+        category: "",
+        date: "",
       });
 
-      pantryModal.onClose();
+      handleClose();
       router.refresh();
     } catch (error: any) {
       toast({
@@ -152,9 +168,7 @@ const PantryModal = () => {
                 <FormControl>
                   <Input placeholder="Pantry name" {...field} />
                 </FormControl>
-                <FormDescription>
-                    Write pantry product name
-                  </FormDescription>
+                <FormDescription>Write pantry product name</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -164,28 +178,29 @@ const PantryModal = () => {
             control={form.control}
             name="category"
             render={({ field }) => (
-              <FormItem>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  value={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category.id} value={category.name}>
-                        {category.name}
-                      </SelectItem>
+              <FormItem className="space-y-3">
+                <FormLabel>Select Category</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    {categories.map((category:any) => (
+                      <FormItem
+                        key={category.id}
+                        className="flex items-center space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <RadioGroupItem value={category.category} />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {category.category}
+                        </FormLabel>
+                      </FormItem>
                     ))}
-                  </SelectContent>
-                </Select>
-                <FormDescription>
-                    set product category
-                  </FormDescription>
+                  </RadioGroup>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -198,13 +213,9 @@ const PantryModal = () => {
               <FormItem>
                 <FormControl>
                   <Input type="date" placeholder="Select a date" {...field} />
-                 
                 </FormControl>
-                <FormDescription>
-                    Set Product expiry date
-                  </FormDescription>
+                <FormDescription>Set Product expiry date</FormDescription>
                 <FormMessage />
-              
               </FormItem>
             )}
           />
@@ -222,9 +233,7 @@ const PantryModal = () => {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                    Set Quantity in stcok
-                  </FormDescription>
+                <FormDescription>Set Quantity in stock</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -243,7 +252,7 @@ const PantryModal = () => {
       disabled={isLoading}
       isOpen={pantryModal.isOpen}
       title={item ? "Edit Pantry Item" : "Create Pantry Item"}
-      onClose={pantryModal.onClose}
+      onClose={handleClose}
       body={bodyContent}
       actionLabel={item ? "Update" : "Create"}
     />

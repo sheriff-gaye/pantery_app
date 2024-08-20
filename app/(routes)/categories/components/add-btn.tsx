@@ -1,8 +1,7 @@
 "use client"
 
-import { totalCategories } from "@/actions/get-categories";
+import { totalCategories } from "@/actions/categories";
 import { Button } from "@/components/ui/button";
-import useCategoryModal from "@/hooks/useCategoryModal";
 
 const UploadButton= ()=>{
 

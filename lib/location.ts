@@ -24,7 +24,7 @@ export async function getCity(): Promise<{ city: string; country: string } | nul
     try {
         const { latitude, longitude } = await getUserLocation();
 
-        const apiKey = '83b56bdedc8447f5819b507ac831a2c1';
+        const apiKey = process.env.NEXT_PUBLIC_API_KEY;
         const geocodingEndpoint = `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=${apiKey}`;
 
         const response = await fetch(geocodingEndpoint);

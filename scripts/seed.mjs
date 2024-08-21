@@ -28,4 +28,4 @@ async function seedCategories() {
   }
 }
 
-seedCategories();
+seedCategories(); 

@@ -8,7 +8,7 @@ const DashboardSidebar = () => {
       <Link href="/dashboard">
         <div className="p-6 ml-[-5rem]  flex justify-center items-center">
           <div className="relative h-8 w-8  gap-3">
-            <Image src="/logo.png" alt="logo" fill />
+            <Image src="/logo2.png" alt="logo" fill />
             <h2 className="text-xl font-bold ml-9 text-black ">Pantry </h2>
           </div>
         </div>

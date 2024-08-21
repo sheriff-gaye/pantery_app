@@ -20,7 +20,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="text-sm md:text-xl dark:text-white/80 text-black font-normal">
+      <div className="md:text-xl dark:text-white/80 font-normal">
         Optimize your inventory with AI-driven precision. Streamline operations, reduce waste, and enhance efficiency. AI Pantry provides real-time insights and recommendations, ensuring your inventory is always in check. Join us and revolutionize your inventory management today!
       </div>
       <div className='flex gap-x-3 justify-center'>
